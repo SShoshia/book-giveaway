@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Welcome to Your Dashboard, {{ current_user.username }}!</h1>
+    
+    <h2>Your Books</h2>
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Condition</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in user_books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.condition }}</td>
+                    <td>{{ book.location }}</td>
+                    <td>
+                        <a href="{{ url_for('manage_book', book_id=book.id) }}">Edit</a> |
+                        <a href="{{ url_for('view_interested_users', book_id=book.id) }}">View Interested Users</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

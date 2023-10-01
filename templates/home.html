@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Books Available for Giveaway</h1>
+    
+    <form action="{{ url_for('home') }}" method="GET">
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" placeholder="Enter author name">
+        
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre" placeholder="Enter genre">
+        
+        <button type="submit">Search</button>
+    </form>
+    <form action="{{ url_for('update_interest') }}" method="POST">
+        <br>
+        {% if current_user.is_authenticated %}
+            <button type="submit">Save Interests</button>
+            <br><br>
+        {% endif %}
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Condition</th>
+                    <th>Location</th>
+                    <th>Owner</th>
+                    {% if current_user.is_authenticated %}
+                    <th>Interested</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in filtered_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.genre }}</td>
+                        <td>{{ book.condition }}</td>
+                        <td>{{ book.location }}</td>
+                        <td>{{ book.owner.username }}</td>
+                        {% if current_user.is_authenticated %}
+                        <td>
+                            <input type="checkbox" name="interests" value="{{ book.id }}"
+                            {% if current_user in book.interested_users %}checked{% endif %}>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}

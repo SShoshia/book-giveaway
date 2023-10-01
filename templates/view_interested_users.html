@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Interested Users for "{{ book.title }}"</h1>
+    
+    <ul class="horizontal-list">
+        {% for user in interested_users %}
+            <li>
+                {{ user.username }}
+                <form method="POST">
+                    <input type="hidden" name="selected_user" value="{{ user.id }}">
+                    <button type="submit">Choose User</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}

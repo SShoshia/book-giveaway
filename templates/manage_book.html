@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>{{ 'Edit Book' if book else 'Add Book' }}</h1>
+  <form method="POST" action="{{ url_for('manage_book', book_id=book.id if book else None) }}">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" value="{{ book.title if book else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" value="{{ book.author if book else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="genre">Genre:</label>
+      <input type="text" id="genre" name="genre" value="{{ book.genre if book else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="condition">Condition:</label>
+      <input type="text" id="condition" name="condition" value="{{ book.condition if book else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" value="{{ book.location if book else '' }}">
+    </div>
+    
+    <button type="submit">{{ 'Update Book' if book else 'Add Book' }}</button>
+  </form>
+  
+  {% if book %}
+    <button type="button" id="deleteButton">Delete Book</button>
+
+    <div id="deleteModal" class="custom-modal">
+      <div class="modal-content">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete this book?</p>
+        <button id="cancelButton">Cancel</button>
+        <form method="POST" action="{{ url_for('delete_book', book_id=book.id) }}">
+          <button id="confirmButton">Delete</button>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+
+  <script>
+    modal = document.getElementById('deleteModal');
+    modal.style.visibility = 'hidden'
+    
+    deleteButton = document.getElementById('deleteButton');
+    cancelButton = document.getElementById('cancelButton');
+    confirmButton = document.getElementById('confirmButton');
+  
+    deleteButton.addEventListener('click', () => {modal.style.visibility = 'visible'});
+    cancelButton.addEventListener('click', () => {modal.style.visibility = 'hidden'});
+    confirmButton.addEventListener('click', () => {modal.style.visibility = 'hidden'});
+  </script>
+{% endblock %}
